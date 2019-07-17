@@ -1,6 +1,7 @@
 ﻿using ReOsuStoryboardPlayer.Core.Base;
 using ReOsuStoryboardPlayer.Core.Commands;
 using sb2cssa.Converter.CommandValueConverters;
+using ReOsuStoryboardPlayer.Core.Utils;
 using sb2cssa.CSS;
 using sb2cssa.CSS.Animation;
 using SixLabors.ImageSharp;
@@ -31,6 +32,8 @@ namespace sb2cssa.Converter
             int end_time = keyframe_timeline.Max(x => x.Item1);
 
             var duration = end_time - start_time;
+
+            Log.User($"Build Frame {storyboard_timeline} -> {name} ");
 
             ProgressiveKeyFrames kf = new ProgressiveKeyFrames(name);
 
@@ -66,7 +69,9 @@ namespace sb2cssa.Converter
         {
             var obj_name = Utils.GetStoryboardIdentityName(obj);
 
-            var animation_key_frames = obj.CommandMap.Values.Where(x => CanConvert(x)).Select(x =>(ConverterTimelineToKeyFrames(x, /*$"{obj_name}_{x.Event}_timeline"*/(CREATED_ID++).ToString()),x));
+            var animation_key_frames = obj.CommandMap.Values
+                .Where(x => CanConvert(x))
+                .Select(x =>(ConverterTimelineToKeyFrames(x, $"k{(CREATED_ID++).ToString()}"),x)).ToArray();
 
             var animation_prop = new Property("animation", string.Join(",", animation_key_frames.Select(x => BuildAnimationValues(x.Item1))));
 
@@ -83,7 +88,9 @@ namespace sb2cssa.Converter
 
         private static string BuildAnimationValues((KeyFrames frames, int start_time, int duration) info)
         {
-            return $"{info.frames.Name} {info.duration} linear {info.start_time}";
+            Console.WriteLine($"Link Frame {info.frames.Name}");
+
+            return $"{info.frames.Name} {info.duration}ms linear {info.start_time}ms";
         }
 
         private static Dictionary<Event, ICommandValueConvertable> converters = new Dictionary<Event, ICommandValueConvertable>()

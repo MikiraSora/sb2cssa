@@ -9,6 +9,6 @@ namespace sb2cssa
 {
     public static class Utils
     {
-        public static string GetStoryboardIdentityName(StoryboardObject obj) => $"{obj.FileLine}_" + string.Join("", obj.ImageFilePath.ToLower().Replace('/', '_').Replace('\\', '_').Replace('.', '_').Where(x => (x >= 'a' && x <= 'z') || (x >= '0' && x <= '9') || x == '_'));
+        public static string GetStoryboardIdentityName(StoryboardObject obj) => $"_{obj.FileLine}_" + string.Join("", obj.ImageFilePath.ToLower().Replace('/', '_').Replace('\\', '_').Replace('.', '_').Where(x => (x >= 'a' && x <= 'z') || (x >= '0' && x <= '9') || x == '_'));
     }
 }

@@ -22,7 +22,7 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var osb_path = @"413707 Milkychan - Stronger Than You -Chara Response-\Milkychan - Stronger Than You -Chara Response- (Cosmolade).osb";
+            var osb_path = @"supersb.osb";
             var dir_path = Path.GetDirectoryName(Path.GetFullPath(osb_path));
 
             OsuFileReader reader = new OsuFileReader(osb_path);
@@ -35,22 +35,23 @@ namespace Test
 
             StoryboardReader r = new StoryboardReader(er);
 
-            var frames = new List<KeyFrames>();
-            var selector = new List<Selector>();
+            CSSInstance css = new CSSInstance();
 
-            foreach (var sbo in r.EnumValues())
+            foreach (var sbo in r.EnumValues().OfType<StoryboardObject>())
             {
                 var result = StoryboardConverter.ConvertStoryboardObject(sbo);
 
-                frames.AddRange(result.keyframes);
-                selector.Add(result.selector);
+                css.FormatableCSSElements.AddRange(result.keyframes);
+                css.FormatableCSSElements.Add(result.selector);
 
                 SetupWidthHeightProperties(sbo, result.selector, dir_path);
             }
 
-            var css = string.Join(Environment.NewLine, frames.Select(x => x.FormatAsCSSSupport(null))) + Environment.NewLine + string.Join(Environment.NewLine, selector.Select(x => x.FormatAsCSSSupport(null)));
+            var css_content = css.FormatAsCSSSupport(null);
 
-            File.WriteAllText("result.css", css);
+            File.WriteAllText(@"result.css", css_content);
+
+            Console.ReadLine();
         }
 
         private static Dictionary<string, (int width, int height)> cache_pic_width = new Dictionary<string, (int width, int height)>();
