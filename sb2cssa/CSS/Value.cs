@@ -13,6 +13,16 @@ namespace sb2cssa.CSS
 
     public class StringValue : Value
     {
+        public StringValue()
+        {
+
+        }
+
+        public StringValue(string value)
+        {
+            Value = value;
+        }
+
         public string Value { get; set; }
 
         public override string FormatAsCSSSupport(FormatSetting setting)

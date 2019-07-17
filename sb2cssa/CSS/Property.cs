@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace sb2cssa.CSS
 {
-    public class Property:IFormatable
+    public class Property : IFormatable
     {
         protected Property() { }
         public Property(string name) => Name = name;
@@ -26,5 +26,12 @@ namespace sb2cssa.CSS
             var format = $"{Name}:{Value.FormatAsCSSSupport(setting)};";
             return format;
         }
+
+        public static bool operator ==(Property a, Property b)
+        {
+            return a.Name == a.Name && a.Value == b.Value;
+        }
+
+        public static bool operator !=(Property a, Property b) => !(a == b);
     }
 }
