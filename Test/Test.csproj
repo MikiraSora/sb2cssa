@@ -79,6 +79,10 @@
       <Project>{05bb063a-5ac0-460f-8ef7-1f8c045fafe9}</Project>
       <Name>ReOsuStoryboardPlayer.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="G:\OsuStoryBroadPlayer\ReOsuStoryboardPlayer\ReOsuStoryBoardPlayer.csproj">
+      <Project>{5116D93A-A7D9-4312-B052-FBC2FE5D0444}</Project>
+      <Name>ReOsuStoryBoardPlayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

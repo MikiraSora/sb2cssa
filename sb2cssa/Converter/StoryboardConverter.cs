@@ -2,16 +2,13 @@
 using ReOsuStoryboardPlayer.Core.Commands;
 using sb2cssa.Converter.CommandValueConverters;
 using ReOsuStoryboardPlayer.Core.Utils;
-using sb2cssa.CSS;
-using sb2cssa.CSS.Animation;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using sb2cssa.CSS;
+using sb2cssa.CSS.Animation;
 
 namespace sb2cssa.Converter
 {
@@ -69,6 +66,23 @@ namespace sb2cssa.Converter
         {
             var obj_name = Utils.GetStoryboardIdentityName(obj);
 
+            //temp solve
+            obj.AddCommand(new FadeCommand() {
+                EndTime=obj.FrameStartTime,
+                StartTime=0,
+
+                StartValue=0,
+                EndValue=0
+            });
+            obj.AddCommand(new FadeCommand()
+            {
+                EndTime = obj.FrameEndTime+1,
+                StartTime = obj.FrameEndTime,
+
+                StartValue = 0,
+                EndValue = 0
+            });
+
             var animation_key_frames = obj.CommandMap.Values
                 .Where(x => CanConvert(x))
                 .Select(x =>(ConverterTimelineToKeyFrames(x, $"k{(CREATED_ID++).ToString()}"),x)).ToArray();
@@ -78,7 +92,7 @@ namespace sb2cssa.Converter
             Selector selector = new Selector($".{obj_name}");
 
             selector.Properties.Add(animation_prop);
-            selector.Properties.Add(new Property("background-image", $"url(\"{obj.ImageFilePath}\")"));
+            selector.Properties.Add(new Property("background-image", $"url(\"{System.Text.RegularExpressions.Regex.Escape(obj.ImageFilePath)}\")"));
 
             selector.Properties.Add(new Property("background-blend-mode", "multiply"));
             selector.Properties.Add(position_fix_prop);

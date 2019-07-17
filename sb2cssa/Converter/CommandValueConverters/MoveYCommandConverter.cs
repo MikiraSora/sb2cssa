@@ -14,7 +14,7 @@ namespace sb2cssa.Converter.CommandValueConverters
         {
             var v = command.CalculateValue(CalculateInterploter(command,time));
 
-            yield return new Property("transform", $"translateX({v}px)");
+            yield return new Property("transform", $"translateY({v}px)");
         }
     }
 }

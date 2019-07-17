@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.UI;
 using ReOsuStoryboardPlayer;
@@ -10,6 +11,8 @@ using ReOsuStoryboardPlayer.Core.Base;
 using ReOsuStoryboardPlayer.Core.Parser.Collection;
 using ReOsuStoryboardPlayer.Core.Parser.Reader;
 using ReOsuStoryboardPlayer.Core.Parser.Stream;
+using ReOsuStoryboardPlayer.Kernel;
+using ReOsuStoryboardPlayer.Parser;
 using sb2cssa;
 using sb2cssa.Converter;
 using sb2cssa.CSS;
@@ -23,25 +26,18 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var osb_path = @"372552 yuiko - Azuma no Sora kara Hajimaru Sekai (Short)\yuiko - Azuma no Sora kara Hajimaru Sekai (Short) (KaedekaShizuru).osb";
-            var dir_path = Path.GetDirectoryName(Path.GetFullPath(osb_path));
+            var dir_path = "372552 yuiko - Azuma no Sora kara Hajimaru Sekai (Short)";
 
-            OsuFileReader reader = new OsuFileReader(osb_path);
-
-            Setting.EnableSplitMoveScaleCommand = false;
-
-            VariableCollection collection = new VariableCollection(new VariableReader(reader).EnumValues());
-
-            EventReader er = new EventReader(reader, collection);
-
-            StoryboardReader r = new StoryboardReader(er);
+            BeatmapFolderInfo folder_info = BeatmapFolderInfo.Parse(dir_path,null);
+            var sb_instance = StoryboardInstance.Load(folder_info);
 
             CSSInstance css = new CSSInstance();
 
-            var objects = r.EnumValues().OfType<StoryboardObject>();
+            var objects = sb_instance.Updater.StoryboardObjectList;
 
             foreach (var sbo in objects)
             {
+                sbo.CalculateAndApplyBaseFrameTime();
                 var result = StoryboardConverter.ConvertStoryboardObject(sbo);
 
                 css.FormatableCSSElements.AddRange(result.keyframes);
@@ -52,11 +48,11 @@ namespace Test
 
             var css_content = css.FormatAsCSSSupport(null);
 
-            var css_save_path = Path.Combine(dir_path,"result.css");
+            var css_save_path = Path.Combine(folder_info.folder_path, "result.css");
             File.WriteAllText(css_save_path, css_content);
 
             var html_content = GenerateHtml(css_save_path, css, objects);
-            var html_save_path = Path.Combine(dir_path, "result_html.html");
+            var html_save_path = Path.Combine(folder_info.folder_path, "result_html.html");
             File.WriteAllText(html_save_path, html_content);
 
             //Console.ReadLine();
@@ -74,7 +70,7 @@ namespace Test
             html_generator.AppendLine("<head>");
             html_generator.AppendLine("   <meta charset=\"utf-8\"/>");
 
-            html_generator.AppendLine($"  <link rel=\"stylesheet\" type=\"text/css\" href=\"{css_save_path}\" />");
+            html_generator.AppendLine($"  <link rel=\"stylesheet\" type=\"text/css\" href=\"{Path.GetFileName(css_save_path)}\" />");
             html_generator.AppendLine("   <title>无标题文档</title>");
 
             html_generator.AppendLine("</head>");
