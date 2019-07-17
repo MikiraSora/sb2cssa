@@ -90,7 +90,7 @@ namespace sb2cssa.Converter
         {
             Console.WriteLine($"Link Frame {info.frames.Name}");
 
-            return $"{info.frames.Name} {info.duration}ms linear {info.start_time}ms";
+            return $"{info.frames.Name} {info.duration}ms linear {info.start_time}ms forwards";
         }
 
         private static Dictionary<Event, ICommandValueConvertable> converters = new Dictionary<Event, ICommandValueConvertable>()
@@ -101,7 +101,7 @@ namespace sb2cssa.Converter
             { Event.Scale,new ScaleCommandConverter() },
             { Event.VectorScale,new VectorScaleCommandConverter() },
             { Event.Fade,new FadeCommandConverter() },
-            { Event.Color,new ColorCommandConverter() },
+            //{ Event.Color,new ColorCommandConverter() }, 有丶问题，找不到css对应屙屎颜色混合的实现，先咕着
             { Event.Rotate,new RotateCommandConverter() },
         };
 
