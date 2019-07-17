@@ -28,9 +28,8 @@ namespace sb2cssa.UnitTest.CSS
             Property a = new Property("a", "b");
             Property b = new Property("a", "b");
 
-            var x = a.Equals(a, b);
-
-            Assert.IsTrue(x);
+            Assert.IsTrue(a==b);
+            Assert.IsFalse(a.Equals(b));
         }
     }
 }

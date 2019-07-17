@@ -74,8 +74,10 @@
     <Compile Include="CSS\Animation\ProgressiveKeyFrames.cs" />
     <Compile Include="CSS\Animation\FromToKeyFrames.cs" />
     <Compile Include="CSS\Animation\KeyFrames.cs" />
+    <Compile Include="CSS\Tools\Compressor.cs" />
     <Compile Include="CSS\CSSInstance.cs" />
     <Compile Include="CSS\Property.cs" />
+    <Compile Include="CSS\Tools\Optimzer.cs" />
     <Compile Include="CSS\Value.cs" />
     <Compile Include="CSS\FormatSetting.cs" />
     <Compile Include="CSS\IFormatable.cs" />
@@ -93,5 +95,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

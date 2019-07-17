@@ -21,8 +21,8 @@ namespace sb2cssa.Converter
             var command_value_converter = GetValueConverter(storyboard_timeline.Event);
 
             var keyframe_timeline=storyboard_timeline.Select(x => new[] {
-                (x.StartTime,command_value_converter.Convert(x,x.StartTime)),
-                (x.EndTime,command_value_converter.Convert(x,x.EndTime)),
+                (/*x.RelativeLine,*/x.StartTime,command_value_converter.Convert(x,x.StartTime)),
+                (/*x.RelativeLine,*/x.EndTime,command_value_converter.Convert(x,x.EndTime)),
             }).SelectMany(l=>l).Distinct().OrderBy(x=>x.Item1);
 
             int start_time = keyframe_timeline.Min(x=>x.Item1);

@@ -17,6 +17,7 @@ using sb2cssa;
 using sb2cssa.Converter;
 using sb2cssa.CSS;
 using sb2cssa.CSS.Animation;
+using sb2cssa.CSS.Tools;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -26,9 +27,12 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var dir_path = "372552 yuiko - Azuma no Sora kara Hajimaru Sekai (Short)";
+            var dir_path = "ssss";
 
             BeatmapFolderInfo folder_info = BeatmapFolderInfo.Parse(dir_path,null);
+
+            Setting.EnableSplitMoveScaleCommand = false;
+
             var sb_instance = StoryboardInstance.Load(folder_info);
 
             CSSInstance css = new CSSInstance();
@@ -121,6 +125,54 @@ namespace Test
 
             selector.Properties.Add(new Property("height", $"{height}px"));
             selector.Properties.Add(new Property("width", $"{width}px"));
+        }
+
+        private static void BuildTestTimeline(ProgressiveKeyFrames frames)
+        {
+            frames.Timeline.Add((0f, new List<Property>() {
+                new Property("top","200"),
+                new Property("left","100"),
+            }));
+
+            frames.Timeline.Add((0.2f, new List<Property>() {
+                new Property("top","0"),
+                new Property("left","100"),
+            }));
+
+            frames.Timeline.Add((0.4f, new List<Property>() {
+                new Property("top","100"),
+                new Property("left","200"),
+            }));
+
+            frames.Timeline.Add((0.4f, new List<Property>() {
+                new Property("top","100"),
+                new Property("left","200"),
+            }));
+
+            frames.Timeline.Add((0.4f, new List<Property>() {
+                new Property("top","100"),
+                new Property("left","200"),
+            }));
+
+            frames.Timeline.Add((0.6f, new List<Property>() {
+                new Property("top","100"),
+                new Property("left","1000"),
+            }));
+
+            frames.Timeline.Add((0.6f, new List<Property>() {
+                new Property("top","100"),
+                new Property("left","100"),
+            }));
+
+            frames.Timeline.Add((0.8f, new List<Property>() {
+                new Property("top","100"),
+                new Property("left","100"),
+            }));
+
+            frames.Timeline.Add((1f, new List<Property>() {
+                new Property("top","0"),
+                new Property("left","0"),
+            }));
         }
     }
 }

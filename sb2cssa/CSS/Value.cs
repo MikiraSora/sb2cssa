@@ -9,6 +9,14 @@ namespace sb2cssa.CSS
     public abstract class Value : IFormatable
     {
         public abstract string FormatAsCSSSupport(FormatSetting setting);
+
+        public abstract bool ValueCompare(Value other);
+
+        public static bool operator ==(Value a, Value b) => a.ValueCompare(b);
+
+        public static bool operator !=(Value a, Value b) => !(a == b);
+
+        public abstract override string ToString();
     }
 
     public class StringValue : Value
@@ -29,5 +37,9 @@ namespace sb2cssa.CSS
         {
             return Value;
         }
+
+        public override bool ValueCompare(Value other) => other is StringValue o && o.Value == Value;
+
+        public override string ToString() => Value;
     }
 }

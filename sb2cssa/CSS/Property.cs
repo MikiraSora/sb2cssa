@@ -33,5 +33,7 @@ namespace sb2cssa.CSS
         }
 
         public static bool operator !=(Property a, Property b) => !(a == b);
+
+        public override string ToString() => $"{Name}:{Value.ToString()}";
     }
 }
