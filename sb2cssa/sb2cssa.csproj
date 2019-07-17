@@ -31,8 +31,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SixLabors.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.Core.1.0.0-beta0007\lib\netstandard2.0\SixLabors.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.ImageSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.ImageSharp.1.0.0-beta0006\lib\net472\SixLabors.ImageSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,26 +60,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Converter\CommandValueConverterBase.cs" />
+    <Compile Include="Converter\CommandValueConverters\MoveXCommandConverter.cs" />
+    <Compile Include="Converter\CommandValueConverters\ColorCommandConverter.cs" />
+    <Compile Include="Converter\CommandValueConverters\MoveYCommandConverter.cs" />
+    <Compile Include="Converter\CommandValueConverters\FadeCommandConverter.cs" />
+    <Compile Include="Converter\CommandValueConverters\RotateCommandConverter.cs" />
+    <Compile Include="Converter\CommandValueConverters\VectorScaleCommandConverter.cs" />
     <Compile Include="Converter\CommandValueConverters\MoveCommandConverter.cs" />
+    <Compile Include="Converter\CommandValueConverters\ScaleCommandConverter.cs" />
     <Compile Include="Converter\ICommandValueConvertable.cs" />
     <Compile Include="Converter\StoryboardConverter.cs" />
     <Compile Include="CSS\Animation\ProgressiveKeyFrames.cs" />
     <Compile Include="CSS\Animation\FromToKeyFrames.cs" />
     <Compile Include="CSS\Animation\KeyFrames.cs" />
+    <Compile Include="CSS\CSSInstance.cs" />
     <Compile Include="CSS\Property.cs" />
     <Compile Include="CSS\Value.cs" />
     <Compile Include="CSS\FormatSetting.cs" />
     <Compile Include="CSS\IFormatable.cs" />
     <Compile Include="CSS\Selector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="G:\OsuStoryBroadPlayer\ReOsuStoryboardPlayer.Core\ReOsuStoryboardPlayer.Core.csproj">
       <Project>{05BB063A-5AC0-460F-8EF7-1F8C045FAFE9}</Project>
       <Name>ReOsuStoryboardPlayer.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

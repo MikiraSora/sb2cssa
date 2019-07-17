@@ -3,6 +3,9 @@ using ReOsuStoryboardPlayer.Core.Commands;
 using sb2cssa.Converter.CommandValueConverters;
 using sb2cssa.CSS;
 using sb2cssa.CSS.Animation;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +16,9 @@ namespace sb2cssa.Converter
 {
     public static class StoryboardConverter
     {
-        public static (KeyFrames frames,int start_time,int duration) ConverterTimelineToKeyFrames(CommandTimeline storyboard_timeline)
+        private static Property position_fix_prop = new Property("position", "fixed");
+
+        public static (KeyFrames frames,int start_time,int duration) ConverterTimelineToKeyFrames(CommandTimeline storyboard_timeline,string name)
         {
             var command_value_converter = GetValueConverter(storyboard_timeline.Event);
 
@@ -27,7 +32,7 @@ namespace sb2cssa.Converter
 
             var duration = end_time - start_time;
 
-            ProgressiveKeyFrames kf = new ProgressiveKeyFrames("");
+            ProgressiveKeyFrames kf = new ProgressiveKeyFrames(name);
 
             foreach (var frame in keyframe_timeline)
             {
@@ -53,9 +58,44 @@ namespace sb2cssa.Converter
             }
         }
 
+        public static bool CanConvert(CommandTimeline commands) => converters.ContainsKey(commands.Event);
+
+        private static ulong CREATED_ID=0;
+
+        public static (IEnumerable<KeyFrames> keyframes,Selector selector) ConvertStoryboardObject(StoryboardObject obj)
+        {
+            var obj_name = Utils.GetStoryboardIdentityName(obj);
+
+            var animation_key_frames = obj.CommandMap.Values.Where(x => CanConvert(x)).Select(x =>(ConverterTimelineToKeyFrames(x, /*$"{obj_name}_{x.Event}_timeline"*/(CREATED_ID++).ToString()),x));
+
+            var animation_prop = new Property("animation", string.Join(",", animation_key_frames.Select(x => BuildAnimationValues(x.Item1))));
+
+            Selector selector = new Selector($".{obj_name}");
+
+            selector.Properties.Add(animation_prop);
+            selector.Properties.Add(new Property("background-image", $"url(\"{obj.ImageFilePath}\")"));
+
+            selector.Properties.Add(new Property("background-blend-mode", "multiply"));
+            selector.Properties.Add(position_fix_prop);
+
+            return (animation_key_frames.Select(x=>x.Item1.frames), selector);
+        }
+
+        private static string BuildAnimationValues((KeyFrames frames, int start_time, int duration) info)
+        {
+            return $"{info.frames.Name} {info.duration} linear {info.start_time}";
+        }
+
         private static Dictionary<Event, ICommandValueConvertable> converters = new Dictionary<Event, ICommandValueConvertable>()
         {
-            { Event.Move,new MoveCommandConverter() }
+            { Event.Move,new MoveCommandConverter() },
+            { Event.MoveX,new MoveXCommandConverter() },
+            { Event.MoveY,new MoveYCommandConverter() },
+            { Event.Scale,new ScaleCommandConverter() },
+            { Event.VectorScale,new VectorScaleCommandConverter() },
+            { Event.Fade,new FadeCommandConverter() },
+            { Event.Color,new ColorCommandConverter() },
+            { Event.Rotate,new RotateCommandConverter() },
         };
 
         public static ICommandValueConvertable GetValueConverter(Event e)
