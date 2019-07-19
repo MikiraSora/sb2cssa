@@ -33,6 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ReOsuStoryBoardPlayer, Version=2.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\ReOsuStoryBoardPlayer.exe</HintPath>
+    </Reference>
+    <Reference Include="ReOsuStoryboardPlayer.Core, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\ReOsuStoryboardPlayer.Core.dll</HintPath>
+    </Reference>
     <Reference Include="SixLabors.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SixLabors.Core.1.0.0-beta0007\lib\netstandard2.0\SixLabors.Core.dll</HintPath>
     </Reference>
@@ -74,14 +82,6 @@
     <ProjectReference Include="..\sb2cssa\sb2cssa.csproj">
       <Project>{40b0bc31-feb3-4847-951e-2243b3921d59}</Project>
       <Name>sb2cssa</Name>
-    </ProjectReference>
-    <ProjectReference Include="G:\OsuStoryBroadPlayer\ReOsuStoryboardPlayer.Core\ReOsuStoryboardPlayer.Core.csproj">
-      <Project>{05bb063a-5ac0-460f-8ef7-1f8c045fafe9}</Project>
-      <Name>ReOsuStoryboardPlayer.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="G:\OsuStoryBroadPlayer\ReOsuStoryboardPlayer\ReOsuStoryBoardPlayer.csproj">
-      <Project>{5116D93A-A7D9-4312-B052-FBC2FE5D0444}</Project>
-      <Name>ReOsuStoryBoardPlayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

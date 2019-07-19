@@ -62,7 +62,7 @@ namespace sb2cssa.Converter
 
         private static ulong CREATED_ID=0;
 
-        public static (KeyFrames[] keyframes, Selector selector) ConvertStoryboardObject(StoryboardObject obj)
+        public static (IEnumerable<KeyFrames> keyframes, Selector selector) ConvertStoryboardObject(StoryboardObject obj)
         {
             var obj_name = Utils.GetStoryboardIdentityName(obj);
 

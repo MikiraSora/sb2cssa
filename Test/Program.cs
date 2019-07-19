@@ -27,11 +27,13 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var dir_path = "ssss";
+            var dir_path = "test";
 
             BeatmapFolderInfo folder_info = BeatmapFolderInfo.Parse(dir_path,null);
 
-            Setting.EnableSplitMoveScaleCommand = false;
+            PlayerSetting.StoryboardObjectOptimzeLevel = 4;
+            Setting.EnableSplitMoveScaleCommand = true;
+            Setting.EnableLoopCommandUnrolling = true;
 
             var sb_instance = StoryboardInstance.Load(folder_info);
 
