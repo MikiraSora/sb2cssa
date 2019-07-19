@@ -30,7 +30,7 @@ namespace sb2cssa.CSS
         public static bool operator ==(Property a, Property b)
         {
             return a.Name == a.Name && a.Value == b.Value;
-        }
+        }   
 
         public static bool operator !=(Property a, Property b) => !(a == b);
 

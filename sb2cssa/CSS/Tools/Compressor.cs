@@ -29,11 +29,9 @@ namespace sb2cssa.CSS.Tools
             public static ProgressiveFrameValueComparer Default { get; } = new ProgressiveFrameValueComparer();
         }
 
-        public static ProgressiveKeyFrames Compress(ProgressiveKeyFrames key_frames)
+        public static void Compress(ProgressiveKeyFrames key_frames)
         {
             key_frames.Timeline = key_frames.Timeline.Distinct(ProgressiveFrameValueComparer.Default).ToList();
-
-            return key_frames;
         }
     }
 }

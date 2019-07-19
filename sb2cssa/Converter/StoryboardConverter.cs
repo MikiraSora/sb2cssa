@@ -62,11 +62,14 @@ namespace sb2cssa.Converter
 
         private static ulong CREATED_ID=0;
 
-        public static (IEnumerable<KeyFrames> keyframes,Selector selector) ConvertStoryboardObject(StoryboardObject obj)
+        public static (KeyFrames[] keyframes, Selector selector) ConvertStoryboardObject(StoryboardObject obj)
         {
             var obj_name = Utils.GetStoryboardIdentityName(obj);
 
+            Selector selector = new Selector($".{obj_name}");
+
             //temp solve
+
             obj.AddCommand(new FadeCommand() {
                 EndTime=obj.FrameStartTime,
                 StartTime=0,
@@ -83,13 +86,14 @@ namespace sb2cssa.Converter
                 EndValue = 0
             });
 
+            SetupBaseTransform(selector, obj);
+
             var animation_key_frames = obj.CommandMap.Values
                 .Where(x => CanConvert(x))
                 .Select(x =>(ConverterTimelineToKeyFrames(x, $"k{(CREATED_ID++).ToString()}"),x)).ToArray();
 
             var animation_prop = new Property("animation", string.Join(",", animation_key_frames.Select(x => BuildAnimationValues(x.Item1))));
 
-            Selector selector = new Selector($".{obj_name}");
 
             selector.Properties.Add(animation_prop);
             selector.Properties.Add(new Property("background-image", $"url(\"{System.Text.RegularExpressions.Regex.Escape(obj.ImageFilePath)}\")"));
@@ -97,7 +101,28 @@ namespace sb2cssa.Converter
             selector.Properties.Add(new Property("background-blend-mode", "multiply"));
             selector.Properties.Add(position_fix_prop);
 
-            return (animation_key_frames.Select(x=>x.Item1.frames), selector);
+            return (animation_key_frames.Select(x => x.Item1.frames).ToArray(),selector);
+        }
+
+        private static void SetupBaseTransform(Selector selector, StoryboardObject obj)
+        {
+            obj.ResetTransform();
+
+            //position
+            selector.Properties.Add(new Property("left", $"{obj.Postion.X}px"));
+            selector.Properties.Add(new Property("top", $"{obj.Postion.Y}px"));
+
+            //rotate
+            selector.Properties.Add(new Property("transform", $"rotate({obj.Postion.Y}rad)"));
+
+            //fade
+            selector.Properties.Add(new Property("opacity", $"{obj.Color/255.0f:F2}"));
+
+            //scale
+            selector.Properties.Add(new Property("opacity", $"{obj.Color / 255.0f:F2}"));
+
+            //color
+            //todo : color
         }
 
         private static string BuildAnimationValues((KeyFrames frames, int start_time, int duration) info)
