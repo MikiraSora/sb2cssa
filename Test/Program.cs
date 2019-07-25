@@ -48,7 +48,7 @@ namespace Test
                 css.FormatableCSSElements.Add(result.selector);
             }
 
-            //AppendVisualField(css);
+            AppendVisualField(css);
 
             var css_content = css.FormatAsCSSSupport(null);
 
@@ -64,13 +64,28 @@ namespace Test
 
         private static void AppendVisualField(CSSInstance css)
         {
-            Selector bg = new Selector(".visual_filed");
-            bg.Properties.Add(new Property("width", "640px"));
-            bg.Properties.Add(new Property("height", "480px"));
+            Selector bg = new Selector(".board");
+            bg.Properties.Add(new Property("top", "480px"));
+            bg.Properties.Add(new Property("left", "0px"));
+            bg.Properties.Add(new Property("width", "3000px"));
+            bg.Properties.Add(new Property("margin", "0px"));
+            bg.Properties.Add(new Property("padding", "0px"));
+            bg.Properties.Add(new Property("height", "3000px"));
             bg.Properties.Add(new Property("position", "fixed"));
-            bg.Properties.Add(new Property("background-color", "#7B68EE20"));
+            bg.Properties.Add(new Property("background-color", "#000000"));
+
+            Selector bg2 = new Selector(".board2");
+            bg2.Properties.Add(new Property("left", "854px"));
+            bg2.Properties.Add(new Property("top", "0px"));
+            bg2.Properties.Add(new Property("margin", "0px"));
+            bg2.Properties.Add(new Property("padding", "0px"));
+            bg2.Properties.Add(new Property("width", "3000px"));
+            bg2.Properties.Add(new Property("height", "3000px"));
+            bg2.Properties.Add(new Property("position", "fixed"));
+            bg2.Properties.Add(new Property("background-color", "#000000"));
 
             css.FormatableCSSElements.Add(bg);
+            css.FormatableCSSElements.Add(bg2);
         }
 
         private static string GenerateHtml(string css_save_path, CSSInstance css, IEnumerable<StoryboardObject> objects)

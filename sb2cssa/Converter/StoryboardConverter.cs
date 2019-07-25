@@ -21,16 +21,15 @@ namespace sb2cssa.Converter
     {
         private static Property position_fix_prop = new Property("position", "fixed");
 
-        public static (KeyFrames frames,int start_time,int duration) ConverterTimelineToKeyFrames(CommandTimeline storyboard_timeline,string name)
+        public static (KeyFrames frames, int start_time, int duration) ConverterTimelineToKeyFrames(CommandTimeline storyboard_timeline, string name)
         {
             var command_value_converter = GetValueConverter(storyboard_timeline.Event);
 
-            var keyframe_timeline=storyboard_timeline.Select(x => new[] {
-                (/*x.RelativeLine,*/x.StartTime,command_value_converter.Convert(x,x.StartTime)),
-                (/*x.RelativeLine,*/x.EndTime,command_value_converter.Convert(x,x.EndTime)),
-            }).SelectMany(l=>l).Distinct().OrderBy(x=>x.Item1);
+            var extra_imm_timeline = new List<(long,int, IEnumerable<Property>)>();
 
-            int start_time = keyframe_timeline.Min(x=>x.Item1);
+            var keyframe_timeline = TimelineConvert.ConvertToKeyFrame(storyboard_timeline).Select(x=>(x.time,command_value_converter.Convert(x.cmd,x.time)));
+
+            int start_time = keyframe_timeline.Min(x => x.Item1);
             int end_time = keyframe_timeline.Max(x => x.Item1);
 
             var duration = end_time - start_time;
@@ -49,7 +48,7 @@ namespace sb2cssa.Converter
             Compressor.Compress(kf);
             ProgressiveFrameSeparater.Separate(kf);
 
-            return (kf,start_time,duration);//todo
+            return (kf, start_time, duration);//todo
 
             float CalculateInterploter(float time)
             {
@@ -124,7 +123,7 @@ namespace sb2cssa.Converter
             var anchor = AnchorConvert.Convert(obj.OriginOffset)??Anchor.Centre;
             var origin = TransformOriginConvert.Convert(anchor);
 
-            int offset_width = (int)(origin.w_offset * size.width);
+            int offset_width = (int)(origin.w_offset * size.width) - 107;
             int offset_height = (int)(origin.h_offset * size.height);
 
             #region Apply Offset for translate()
