@@ -43,10 +43,11 @@ namespace sb2cssa.Converter
             {
                 var progress = CalculateInterploter(frame.Item1);
 
-                kf.Timeline.Add((progress, frame.Item2.ToList()));
+                kf.Timeline.Add(new ProgressiveFrame() { NormalizeTime = progress, ChangedProperties = frame.Item2.ToList() });
             }
 
             Compressor.Compress(kf);
+            ProgressiveFrameSeparater.Separate(kf);
 
             return (kf,start_time,duration);//todo
 
@@ -131,7 +132,7 @@ namespace sb2cssa.Converter
             foreach (var left in key_frames
                 .OfType<ProgressiveKeyFrames>()
                 .SelectMany(l=>l.Timeline)
-                .Select(l=>l.changed_prop_list)
+                .Select(l=>l.ChangedProperties)
                 .SelectMany(l=>l).Concat(selector.Properties)
                 .Where(l=>l.Name.StartsWith("left")))
             {
@@ -141,7 +142,7 @@ namespace sb2cssa.Converter
             foreach (var top in key_frames
                 .OfType<ProgressiveKeyFrames>()
                 .SelectMany(l => l.Timeline)
-                .Select(l => l.changed_prop_list)
+                .Select(l => l.ChangedProperties)
                 .SelectMany(l => l).Concat(selector.Properties)
                 .Where(l => l.Name.StartsWith("top")))
             {
@@ -196,9 +197,6 @@ namespace sb2cssa.Converter
 
             //fade
             selector.Properties.Add(new Property("opacity", $"{obj.Color.Z /255.0f:F2}"));
-
-            //scale
-            //selector.Properties.Add(new Property("opacity", $"{obj.Color / 255.0f:F2}"));
 
             //color
             //todo : color

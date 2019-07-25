@@ -10,20 +10,20 @@ namespace sb2cssa.CSS.Tools
 {
     public static class Compressor
     {
-        public class ProgressiveFrameValueComparer : IEqualityComparer<(float time, List<Property> props)>
+        public class ProgressiveFrameValueComparer : IEqualityComparer<ProgressiveFrame>
         {
-            public bool Equals((float time, List<Property> props) x, (float time, List<Property> props) y)
+            public bool Equals(ProgressiveFrame x, ProgressiveFrame y)
             {
-                if (x.time != y.time)
+                if (x.NormalizeTime != y.NormalizeTime)
                     return false;
 
-                 return x.props.All(z => y.props.Any(w => z == w));
+                 return x.ChangedProperties.All(z => y.ChangedProperties.Any(w => z == w));
             }
 
-            public int GetHashCode((float time, List<Property> props) obj)
+            public int GetHashCode(ProgressiveFrame obj)
             {
                 //我写的是什么几把
-                return (int)(obj.time*1000);
+                return obj.NormalizeTime.GetHashCode();
             }
 
             public static ProgressiveFrameValueComparer Default { get; } = new ProgressiveFrameValueComparer();

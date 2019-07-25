@@ -17,17 +17,17 @@ namespace sb2cssa.UnitTest.CSS.Tools
         [TestMethod]
         public void Test()
         {
-            var t1 = (0f, new List<Property>() {
+            var t1 = new ProgressiveFrame(0f, new List<Property>() {
                 new Property("top","200"),
                 new Property("left","100"),
             });
 
-            var t2 = (0f, new List<Property>() {
+            var t2 = new ProgressiveFrame(0f, new List<Property>() {
                 new Property("top","200"),
                 new Property("left","100"),
             });
 
-            var t3 = (1f, new List<Property>() {
+            var t3 = new ProgressiveFrame(1f, new List<Property>() {
                 new Property("top","200"),
                 new Property("left","100"),
             });
@@ -50,47 +50,47 @@ namespace sb2cssa.UnitTest.CSS.Tools
 
         private void BuildTestTimeline(ProgressiveKeyFrames frames)
         {
-            frames.Timeline.Add((0f, new List<Property>() {
+            frames.Timeline.Add(new ProgressiveFrame(0f, new List<Property>() {
                 new Property("top","200"),
                 new Property("left","100"),
             }));
 
-            frames.Timeline.Add((0.2f, new List<Property>() {
+            frames.Timeline.Add(new ProgressiveFrame(0.2f, new List<Property>() {
                 new Property("top","0"),
                 new Property("left","100"),
             }));
 
-            frames.Timeline.Add((0.4f, new List<Property>() {
+            frames.Timeline.Add(new ProgressiveFrame(0.4f, new List<Property>() {
                 new Property("top","100"),
                 new Property("left","200"),
             }));
 
-            frames.Timeline.Add((0.4f, new List<Property>() {
+            frames.Timeline.Add(new ProgressiveFrame(0.4f, new List<Property>() {
                 new Property("top","100"),
                 new Property("left","200"),
             }));
 
-            frames.Timeline.Add((0.4f, new List<Property>() {
+            frames.Timeline.Add(new ProgressiveFrame(0.4f, new List<Property>() {
                 new Property("top","100"),
                 new Property("left","200"),
             }));
 
-            frames.Timeline.Add((0.6f, new List<Property>() {
+            frames.Timeline.Add(new ProgressiveFrame(0.6f, new List<Property>() {
                 new Property("top","100"),
                 new Property("left","1000"),
             }));
 
-            frames.Timeline.Add((0.6f, new List<Property>() {
+            frames.Timeline.Add(new ProgressiveFrame(0.6f, new List<Property>() {
                 new Property("top","100"),
                 new Property("left","100"),
             }));
 
-            frames.Timeline.Add((0.8f, new List<Property>() {
+            frames.Timeline.Add(new ProgressiveFrame(0.8f, new List<Property>() {
                 new Property("top","100"),
                 new Property("left","100"),
             }));
 
-            frames.Timeline.Add((1f, new List<Property>() {
+            frames.Timeline.Add(new ProgressiveFrame(1f, new List<Property>() {
                 new Property("top","0"),
                 new Property("left","0"),
             }));

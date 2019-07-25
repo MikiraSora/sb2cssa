@@ -25,7 +25,7 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var dir_path = "test";
+            var dir_path = "ssss";
 
             BeatmapFolderInfo folder_info = BeatmapFolderInfo.Parse(dir_path,null);
 
@@ -48,7 +48,7 @@ namespace Test
                 css.FormatableCSSElements.Add(result.selector);
             }
 
-            AppendVisualField(css);
+            //AppendVisualField(css);
 
             var css_content = css.FormatAsCSSSupport(null);
 

@@ -71,12 +71,14 @@
     <Compile Include="Converter\CommandValueConverters\ScaleCommandConverter.cs" />
     <Compile Include="Converter\ICommandValueConvertable.cs" />
     <Compile Include="Converter\StoryboardConverter.cs" />
+    <Compile Include="CSS\Animation\ProgressiveFrame.cs" />
     <Compile Include="CSS\Animation\ProgressiveKeyFrames.cs" />
     <Compile Include="CSS\Animation\FromToKeyFrames.cs" />
     <Compile Include="CSS\Animation\KeyFrames.cs" />
     <Compile Include="CSS\Tools\Compressor.cs" />
     <Compile Include="CSS\CSSInstance.cs" />
     <Compile Include="CSS\Property.cs" />
+    <Compile Include="CSS\Tools\ProgressiveFrameSeparater.cs" />
     <Compile Include="CSS\Tools\Optimzer.cs" />
     <Compile Include="CSS\Value.cs" />
     <Compile Include="CSS\FormatSetting.cs" />
