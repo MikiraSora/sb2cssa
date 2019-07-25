@@ -83,7 +83,7 @@
     <Compile Include="CSS\IFormatable.cs" />
     <Compile Include="CSS\Selector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="Utils\TransformOriginConvert.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -91,8 +91,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="G:\OsuStoryBroadPlayer\ReOsuStoryboardPlayer.Core\ReOsuStoryboardPlayer.Core.csproj">
-      <Project>{05BB063A-5AC0-460F-8EF7-1F8C045FAFE9}</Project>
+      <Project>{d9c78957-c21d-4c64-a564-2919990df151}</Project>
       <Name>ReOsuStoryboardPlayer.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="G:\OsuStoryBroadPlayer\ReOsuStoryboardPlayer\ReOsuStoryBoardPlayer.csproj">
+      <Project>{5116d93a-a7d9-4312-b052-fbc2fe5d0444}</Project>
+      <Name>ReOsuStoryBoardPlayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

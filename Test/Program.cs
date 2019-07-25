@@ -18,8 +18,6 @@ using sb2cssa.Converter;
 using sb2cssa.CSS;
 using sb2cssa.CSS.Animation;
 using sb2cssa.CSS.Tools;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace Test
 {
@@ -27,7 +25,7 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var dir_path = "ssss";
+            var dir_path = "test";
 
             BeatmapFolderInfo folder_info = BeatmapFolderInfo.Parse(dir_path,null);
 
@@ -42,13 +40,15 @@ namespace Test
             foreach (var sbo in objects)
             {
                 sbo.CalculateAndApplyBaseFrameTime();
-                var result = StoryboardConverter.ConvertStoryboardObject(sbo);
+
+                var result = StoryboardConverter.ConvertStoryboardObject(sbo, dir_path);
 
                 css.FormatableCSSElements.AddRange(result.keyframes);
-                css.FormatableCSSElements.Add(result.selector);
 
-                SetupWidthHeightProperties(sbo, result.selector, dir_path);
+                css.FormatableCSSElements.Add(result.selector);
             }
+
+            AppendVisualField(css);
 
             var css_content = css.FormatAsCSSSupport(null);
 
@@ -60,6 +60,17 @@ namespace Test
             File.WriteAllText(html_save_path, html_content);
 
             //Console.ReadLine();
+        }
+
+        private static void AppendVisualField(CSSInstance css)
+        {
+            Selector bg = new Selector(".visual_filed");
+            bg.Properties.Add(new Property("width", "640px"));
+            bg.Properties.Add(new Property("height", "480px"));
+            bg.Properties.Add(new Property("position", "fixed"));
+            bg.Properties.Add(new Property("background-color", "#7B68EE20"));
+
+            css.FormatableCSSElements.Add(bg);
         }
 
         private static string GenerateHtml(string css_save_path, CSSInstance css, IEnumerable<StoryboardObject> objects)
@@ -97,82 +108,6 @@ namespace Test
             html_generator.AppendLine("</html>");
 
             return html_generator.ToString();
-        }
-
-        private static Dictionary<string, (int width, int height)> cache_pic_width = new Dictionary<string, (int width, int height)>();
-
-        private static void SetupWidthHeightProperties(StoryboardObject obj, Selector selector, string dir_path)
-        {
-            int width = 0, height = 0;
-
-            var pic_file = Path.Combine(dir_path, obj.ImageFilePath);
-
-            if (cache_pic_width.TryGetValue(pic_file, out var p))
-            {
-                width = p.width;
-                height = p.height;
-            }
-            else
-            {
-                using (Image<Rgba32> f = Image.Load<Rgba32>(pic_file))
-                {
-                    height = f.Height;
-                    width = f.Width;
-
-                    cache_pic_width[obj.ImageFilePath] = (width, height);
-                }
-            }
-
-            selector.Properties.Add(new Property("height", $"{height}px"));
-            selector.Properties.Add(new Property("width", $"{width}px"));
-        }
-
-        private static void BuildTestTimeline(ProgressiveKeyFrames frames)
-        {
-            frames.Timeline.Add((0f, new List<Property>() {
-                new Property("top","200"),
-                new Property("left","100"),
-            }));
-
-            frames.Timeline.Add((0.2f, new List<Property>() {
-                new Property("top","0"),
-                new Property("left","100"),
-            }));
-
-            frames.Timeline.Add((0.4f, new List<Property>() {
-                new Property("top","100"),
-                new Property("left","200"),
-            }));
-
-            frames.Timeline.Add((0.4f, new List<Property>() {
-                new Property("top","100"),
-                new Property("left","200"),
-            }));
-
-            frames.Timeline.Add((0.4f, new List<Property>() {
-                new Property("top","100"),
-                new Property("left","200"),
-            }));
-
-            frames.Timeline.Add((0.6f, new List<Property>() {
-                new Property("top","100"),
-                new Property("left","1000"),
-            }));
-
-            frames.Timeline.Add((0.6f, new List<Property>() {
-                new Property("top","100"),
-                new Property("left","100"),
-            }));
-
-            frames.Timeline.Add((0.8f, new List<Property>() {
-                new Property("top","100"),
-                new Property("left","100"),
-            }));
-
-            frames.Timeline.Add((1f, new List<Property>() {
-                new Property("top","0"),
-                new Property("left","0"),
-            }));
         }
     }
 }

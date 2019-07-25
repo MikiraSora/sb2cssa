@@ -33,12 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SixLabors.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SixLabors.Core.1.0.0-beta0007\lib\netstandard2.0\SixLabors.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="SixLabors.ImageSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SixLabors.ImageSharp.1.0.0-beta0006\lib\net472\SixLabors.ImageSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -76,11 +70,11 @@
       <Name>sb2cssa</Name>
     </ProjectReference>
     <ProjectReference Include="G:\OsuStoryBroadPlayer\ReOsuStoryboardPlayer.Core\ReOsuStoryboardPlayer.Core.csproj">
-      <Project>{05bb063a-5ac0-460f-8ef7-1f8c045fafe9}</Project>
+      <Project>{d9c78957-c21d-4c64-a564-2919990df151}</Project>
       <Name>ReOsuStoryboardPlayer.Core</Name>
     </ProjectReference>
     <ProjectReference Include="G:\OsuStoryBroadPlayer\ReOsuStoryboardPlayer\ReOsuStoryBoardPlayer.csproj">
-      <Project>{5116D93A-A7D9-4312-B052-FBC2FE5D0444}</Project>
+      <Project>{5116d93a-a7d9-4312-b052-fbc2fe5d0444}</Project>
       <Name>ReOsuStoryBoardPlayer</Name>
     </ProjectReference>
   </ItemGroup>
